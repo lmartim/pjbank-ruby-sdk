@@ -1,4 +1,5 @@
 require 'rest-client'
+require 'httparty'
 
 require File.dirname(__FILE__) + '/pjbank_ruby_sdk'
 require File.dirname(__FILE__) + '/pjbank_ruby_sdk/version'
@@ -9,19 +10,23 @@ module PJBank
     class Recebimento
         
         def self.boleto(params)
-            @@recebimentoController = RecebimentoController::Boleto.new
-            @@recebimentoController.public_send(params[:acao], params) 
+            recebimentoController = RecebimentoController::Boleto.new
+            response = recebimentoController.public_send(params[:acao], params)
+            yield response
         end
 
         def self.cartao(params)
-            @@recebimentoController = RecebimentoController::Cartao.new
-            @@recebimentoController.public_send(params[:acao], params) 
+            recebimentoController = RecebimentoController::Cartao.new
+            response = recebimentoController.public_send(params[:acao], params) 
+            yield response
         end
 
         def self.extrato(params)
             recebimentoController = RecebimentoController::Extrato.new
-            recebimentoController.public_send(params[:acao], params)
+            response = recebimentoController.public_send(params[:acao], params)
+            yield response
         end
+
     end
 
     class ContaDigital

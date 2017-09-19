@@ -11,7 +11,7 @@ Navegue até raiz do projeto e rode o comando abaixo para realizar a instalaçã
 
 Após a instalação da Gem, coloque as linhas abaixo no arquivo Gemfile, dê sua aplicação Rails:
 
-    gem "rest-clien", '~> 2.0'
+    gem "rest-client", '~> 2.0'
     gem "pjbank-ruby-sdk", '~> 0.1.0'
 
 Por fim, atualize o bundle de sua aplicação:

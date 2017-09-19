@@ -1,19 +1,19 @@
 require_relative 'pjbank-ruby-sdk'
 
-puts "Testes: "
-puts "1 - Recebimento/Boleto/Credenciamento"
-puts "2 - Recebimento/Boleto/Emitir"
-puts "3 - Recebimento/Boleto/Impressão em Lotes"
-puts "4 - Recebimento/Boleto/Impressão de Carnê"
-puts "5 - Recebimento/Cartão de Crédito/Credenciamento"
-puts "6 - Recebimento/Cartão de Crédito/Tokenizar um cartão"
-puts "7 - Recebimento/Cartão de Crédito/Criar transação com token"
-puts "8 - Recebimento/Cartão de Crédito/Criar transação com dados do cartão"
-puts "9 - Recebimento/Cartão de Crédito/Cancelar transação"
-puts "10 - Recebimento/Extrato/Extrato de pagamentos"
-puts "11 - Recebimento/Extrato/Extrato de pagamentos liquidados"
-puts "12 - Recebimento/Extrato/Extrato de pagamentos filtrados por data"
-puts "13 - Recebimento/Extrato/Extrato de pagamentos paginado"
+# puts "Testes: "
+# puts "1 - Recebimento/Boleto/Credenciamento"
+# puts "2 - Recebimento/Boleto/Emitir"
+# puts "3 - Recebimento/Boleto/Impressão em Lotes"
+# puts "4 - Recebimento/Boleto/Impressão de Carnê"
+# puts "5 - Recebimento/Cartão de Crédito/Credenciamento"
+# puts "6 - Recebimento/Cartão de Crédito/Tokenizar um cartão"
+# puts "7 - Recebimento/Cartão de Crédito/Criar transação com token"
+# puts "8 - Recebimento/Cartão de Crédito/Criar transação com dados do cartão"
+# puts "9 - Recebimento/Cartão de Crédito/Cancelar transação"
+# puts "10 - Recebimento/Extrato/Extrato de pagamentos"
+# puts "11 - Recebimento/Extrato/Extrato de pagamentos liquidados"
+# puts "12 - Recebimento/Extrato/Extrato de pagamentos filtrados por data"
+# puts "13 - Recebimento/Extrato/Extrato de pagamentos paginado"
 
 teste = gets.chomp
 
@@ -26,12 +26,19 @@ case teste
                 conta_repasse: "99999-9",
                 agencia_repasse: "00001",
                 banco_repasse: "001",
-                cnpj: "06949753000124",  
+                cnpj: "21243347000135",  
                 ddd: "19",  
                 telefone: "987652345",  
                 email: "api@pjbank.com.br"
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
     when '2'
         PJBank::Recebimento.boleto(
             acao: :emitir, 
@@ -43,7 +50,7 @@ case teste
                 valor: "1000.98",
                 juros: "0.0",
                 multa: "0.98",
-                desconto: " 9.58",
+                desconto: "9.58",
                 nome_cliente: "Cliente de exemplo",  
                 cpf_cliente: "62936576000112",  
                 endereco_cliente: "Rua Joaquim Vilac",  
@@ -58,7 +65,17 @@ case teste
                 grupo: "Boletos001",
                 pedido_numero: "8972"
             }
-        )
+        ){|response|
+        puts response["status"]
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+                puts response["linkBoleto"]
+            else
+                puts response["msg"]
+            end
+            puts response
+        }
     when '3'
         PJBank::Recebimento.boleto(
             acao: :impressaoLote,
@@ -70,7 +87,16 @@ case teste
                 pedido_numero: 8972,
                 # formato: "carne"
             }
-        )
+        ){|response|
+            puts response["status"]
+            case response["status"]
+            when "200", 201
+                puts response["linkBoleto"]
+            else
+                puts response["msg"]
+            end
+            puts response
+        }
     when '4'
         PJBank::Recebimento.boleto(
             acao: :impressaoCarne, 
@@ -82,7 +108,15 @@ case teste
                 pedido_numero: 8972,
                 formato: "carne"
             }
-        )
+        ){|response|
+            case response["status"]
+            when "200", 201
+                puts response["linkBoleto"]
+            else
+                puts response["msg"]
+            end
+            puts response
+        }
     when '5'
         PJBank::Recebimento.cartao(
             acao: :credenciamento,
@@ -97,7 +131,14 @@ case teste
                 email: "api@pjbank.com.br",
                 cartao: "true"
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
     when '6'
         PJBank::Recebimento.cartao(
             acao: :tokenizar,
@@ -115,7 +156,14 @@ case teste
                 celular_cartao: "978456723",
                 codigo_cvv: "155"
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
     when '7'
         PJBank::Recebimento.cartao(
             acao: :emitirToken,
@@ -129,7 +177,14 @@ case teste
                 parcelas: "2",
                 descricao_pagamento: "Pagamento de teste"
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
     when '8'
         PJBank::Recebimento.cartao(
             acao: :emitirCartao,
@@ -150,7 +205,14 @@ case teste
                 parcelas: "2",
                 descricao_pagamento: "Pagamento de teste"
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
     when '9'
         PJBank::Recebimento.cartao(
             acao: :cancelarTransacao,
@@ -159,7 +221,14 @@ case teste
                 'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f',
                 'tid_cartao': '2017000006910011775476'
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
     when '10'
         PJBank::Recebimento.extrato(
             acao: :pagamentos,
@@ -167,7 +236,15 @@ case teste
                 'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
                 'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f',
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+            puts response
+        }
     when '11'
         PJBank::Recebimento.extrato(
             acao: :pagamentosLiquidados,
@@ -175,7 +252,14 @@ case teste
                 'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
                 'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f',
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
     when '12'
         PJBank::Recebimento.extrato(
             acao: :pagamentosFiltrados,
@@ -185,7 +269,14 @@ case teste
                 'data_inicio': '08/01/2017',
                 'data_fim': '08/30/2017'
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
     when '13'
         PJBank::Recebimento.extrato(
             acao: :pagamentosPaginados,
@@ -194,5 +285,12 @@ case teste
                 'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f',
                 'pagina': '3'
             }
-        )
+        ){|response|
+            case response["status"]
+            when 200, 201
+                puts response["msg"]
+            else
+                puts response["msg"]
+            end
+        }
 end
