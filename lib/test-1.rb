@@ -20,51 +20,43 @@ teste = gets.chomp
 
 case teste
     when '1'
-        PJBank::Recebimento.boleto(
+        PJBank::ContaDigital.credenciamento(
             acao: "credenciamento", 
             dados: {
                 nome_empresa: "Exemplo Conta Digital",
-                conta_repasse: "99999-9",
-                agencia_repasse: "00001",
-                banco_repasse: "001",
-                cnpj: "21243347000135",  
+                cnpj: "42025140000164",
+                cep: "13032525",
+                endereco: "Rua Joaquim Vilac",
+                numero: "509",
+                bairro: "Vila Teixeira",
+                complemento: "",
+                cidade: "Campinas",
+                estado: "SP",
                 ddd: "19",  
                 telefone: "987652345",  
-                email: "api@pjbank.com.br"
+                email: "api@pjbank.com.br",
+                webhook: "http://example.com.br"
             }
         ){|response|
+            puts response
             case response["status"]
             when 200, 201
-                puts response["msg"]
+                puts response["credencial"]
+                puts response["chave"]
             else
                 puts response["msg"]
             end
         }
     when '2'
-        PJBank::Recebimento.boleto(
-            acao: :emitir, 
+        PJBank::ContaDigital.credenciamento(
+            acao: "inserir", 
             aut: {
-                'credencial': 'd3418668b85cea70aa28965eafaf927cd34d004c',
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
             },
             dados: {
-                vencimento: "12/30/2019",
-                valor: "1000.98",
-                juros: "0.0",
-                multa: "0.98",
-                desconto: "9.58",
-                nome_cliente: "Cliente de exemplo",  
-                cpf_cliente: "62936576000112",  
-                endereco_cliente: "Rua Joaquim Vilac",  
-                numero_cliente: 509,  
-                complemento_cliente: "",  
-                bairro_cliente: "Vila Teixeira",  
-                cidade_cliente: "Campinas",  
-                estado_cliente: "SP",  
-                cep_cliente: "13301510",  
-                logo_url: "http://wallpapercave.com/wp/xK64fR4.jpg",
-                texto: "",
-                grupo: "Boletos001",
-                pedido_numero: "8972"
+                arquivo: 'http://thumbs3.ebaystatic.com/d/l225/m/mI0JQzAhpPGUAbB_iUmxfjA.jpg',
+                tipo: 'contratosocial'
             }
         ){|response|
         puts response["status"]
@@ -78,15 +70,14 @@ case teste
             puts response
         }
     when '3'
-        PJBank::Recebimento.boleto(
-            acao: :impressaoLote,
+        PJBank::ContaDigital.credenciamento(
+            acao: "adicionar",
             aut: {
-                'credencial': 'd3418668b85cea70aa28965eafaf927cd34d004c',
-                'chave': '46e79d6d5161336afa7b98f01236efacf5d0f24b'
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
             },
             dados: {
-                pedido_numero: 8972,
-                # formato: "carne"
+                valor: "900.00",
             }
         ){|response|
             puts response["status"]
@@ -99,15 +90,14 @@ case teste
             puts response
         }
     when '4'
-        PJBank::Recebimento.boleto(
-            acao: :impressaoCarne, 
+        PJBank::ContaDigital.credenciamento(
+            acao: "cadastrar", 
             aut: {
-                'credencial': 'd3418668b85cea70aa28965eafaf927cd34d004c',
-                'chave': '46e79d6d5161336afa7b98f01236efacf5d0f24b'
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
             },
             dados: {
-                pedido_numero: 8972,
-                formato: "carne"
+                webhook: 'http://example.com'
             }
         ){|response|
             case response["status"]
@@ -119,18 +109,14 @@ case teste
             puts response
         }
     when '5'
-        PJBank::Recebimento.cartao(
-            acao: :credenciamento,
+        PJBank::ContaDigital.credenciamento(
+            acao: "convidar",
+            aut: {
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
+            },
             dados: {
-                nome_empresa: "Exemplo Conta Digital",
-                conta_repasse: "99999-9",
-                agencia_repasse: "00001",
-                banco_repasse: "001",
-                cnpj: "06949753000124",  
-                ddd: "19",  
-                telefone: "987652345",  
                 email: "api@pjbank.com.br",
-                cartao: "true"
             }
         ){|response|
             case response["status"]
@@ -141,21 +127,14 @@ case teste
             end
         }
     when '6'
-        PJBank::Recebimento.cartao(
-            acao: :tokenizar,
+        PJBank::ContaDigital.credenciamento(
+            acao: "remover",
             aut: {
-                'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
-                'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f'
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
             },
             dados: {
-                nome_cartao: "Cliente Exemplo",
-                numero_cartao: "4318148832046011",
-                mes_vencimento: "01",
-                ano_vencimento: "2019",
-                cpf_cartao: "24322121004",
-                email_cartao: "api@pjbank.com.br",
-                celular_cartao: "978456723",
-                codigo_cvv: "155"
+                email: "api@pjbank.com.br",
             }
         ){|response|
             case response["status"]
@@ -166,7 +145,7 @@ case teste
             end
         }
     when '7'
-        PJBank::Recebimento.cartao(
+        PJBank::ContaDigital.credenciamento(
             acao: :emitirToken,
             aut: {
                 'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
@@ -187,7 +166,7 @@ case teste
             end
         }
     when '8'
-        PJBank::Recebimento.cartao(
+        PJBank::ContaDigital.credenciamento(
             acao: :emitirCartao,
             aut: {
                 'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
@@ -215,7 +194,7 @@ case teste
             end
         }
     when '9'
-        PJBank::Recebimento.cartao(
+        PJBank::ContaDigital.credenciamento(
             acao: :cancelarTransacao,
             aut: {
                 'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',

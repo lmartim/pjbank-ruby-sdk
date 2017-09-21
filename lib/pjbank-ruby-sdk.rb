@@ -1,4 +1,3 @@
-require 'rest-client'
 require 'httparty'
 
 require File.dirname(__FILE__) + '/pjbank_ruby_sdk'
@@ -7,31 +6,61 @@ require File.dirname(__FILE__) + '/pjbank_ruby_sdk/contadigital/contadigital'
 require File.dirname(__FILE__) + '/pjbank_ruby_sdk/recebimento/recebimento'
 
 module PJBank
+
     class Recebimento
-        
+
         def self.boleto(params)
-            recebimentoController = RecebimentoController::Boleto.new
-            response = recebimentoController.public_send(params[:acao], params)
-            yield response
+            controller = RecebimentoController::Boleto.new
+            yield APICall::api_call(controller, params)
         end
 
         def self.cartao(params)
-            recebimentoController = RecebimentoController::Cartao.new
-            response = recebimentoController.public_send(params[:acao], params) 
-            yield response
+            controller = RecebimentoController::Cartao.new
+            yield api_call(controller, params)
         end
 
         def self.extrato(params)
-            recebimentoController = RecebimentoController::Extrato.new
-            response = recebimentoController.public_send(params[:acao], params)
-            yield response
+            controller = RecebimentoController::Extrato.new
+            yield api_call(controller, params)
         end
 
     end
 
     class ContaDigital
 
-        @@contaController = ContaDigitalController.new
+        def self.credenciamento(params)
+            controller = ContaDigitalController::Credenciamento.new
+            yield APICall::api_call(controller, params)
+        end
+
+        def self.consultas(params)
+            controller = ContaDigitalController::Consultas.new
+            yield APICall::api_call(controller, params)
+        end
+
+        def self.transacoes(params)
+            controller = ContaDigitalController::Transacoes.new
+            yield APICall::api_call(controller, params)
+        end
+
+        def subcontas(params)
+            controller = ContaDigitalController::Subcontas.new
+            yield APICall::api_call(controller, params)
+        end
+
+        def recebimentos(params)
+            controller = ContaDigitalController::Recebimentos.new
+            yield APICall::api_call(controller, params)
+        end
         
+    end
+    
+end
+
+class APICall
+    include PJBank
+
+    def self.api_call(controller, params)
+        return response = controller.public_send(params[:acao], params)
     end
 end

@@ -3,7 +3,7 @@ class BoletoRecebimento
     def credenciamento dados
 
         response = HTTParty.post(
-            'https://api.pjbank.com.br/recebimentos/',
+            "https://api.pjbank.com.br/recebimentos/",
             headers: {
                 "Content-Type": "application/json"
             },

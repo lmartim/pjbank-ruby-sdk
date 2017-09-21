@@ -1,52 +1,51 @@
 require_relative 'credenciamento/credenciamento'
-require_relative 'transacoes/transacoes'
+# require_relative 'consultas/consultas'
+# require_relative 'transacoes/transacoes'
+# require_relative 'subcontas/subcontas'
+# require_relative 'recebimentos/recebimentos'
 
 class ContaDigitalController
 
-    def initialize
+    class Credenciamento
+        def initialize
+            @credenciamentoController = CredenciamentoContaDigital.new
+        end
 
-        @credenciamentoController = CredenciamentoContaDigital.new
-        
-        @transacoesController = TransacoesContaDigital.new
+        def credenciamento params
+            dados = params[:dados]
+            @credenciamentoController.credenciamento dados
+        end
 
-    end
+        def inserir params
+            dados = params[:dados]
+            aut = params[:aut]
+            @credenciamentoController.inserir dados, aut
+        end
 
-    def credenciamento
+        def adicionar params
+            dados = params[:dados]
+            aut = params[:aut]
+            @credenciamentoController.adicionar dados, aut
+        end
 
-        puts "Digite a opção:\n1 - Credenciamento\n2 - Consulta\n3 - Boleto para adicionar saldo"
-        opcao = gets.chomp
+        def cadastrar params
+            dados = params[:dados]
+            aut = params[:aut]
+            @credenciamentoController.cadastrar dados, aut
+        end
 
-        case opcao
-            when '1' 
-                @credenciamentoController.credenciamento
-            when '2'
-                @credenciamentoController.consulta
-            when '3'
-                @credenciamentoController.boleto
+        def convidar params
+            dados = params[:dados]
+            aut = params[:aut]
+            @credenciamentoController.convidar dados, aut
+        end
+
+        def remover params
+            dados = params[:dados]
+            aut = params[:aut]
+            @credenciamentoController.remover dados, aut
         end
 
     end
-
-    def transacoes
-        puts "Digite a opção:\n1 - Pagamento de boleto"
-        opcao = gets.chomp
-
-        case opcao
-            when '1' 
-                @transacoesController.pagamentoBoleto
-        end
-    end
-
-    # def subcontas
-
-    # end
-
-    # def administradores
-
-    # end
-
-    # def documentos
-
-    # end
 
 end
