@@ -28,7 +28,7 @@ class CredenciamentoContaDigital
         retorno = JSON.parse(response.body)
 
         if(!retorno["status"]) 
-            retorno.push("status", 200)
+            retorno["status"] = 201;
         end
 
         return retorno
@@ -40,7 +40,7 @@ class CredenciamentoContaDigital
         response = HTTParty.post(
             "https://api.pjbank.com.br/contadigital/#{aut[:credencial]}/documentos",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
                 "x-chave-conta": "#{aut[:chave]}"
             },
             body: {
@@ -70,6 +70,9 @@ class CredenciamentoContaDigital
         )
 
         retorno = JSON.parse(response.body)
+        if(!retorno["status"]) 
+            retorno["status"] = 201;
+        end
         return retorno
 
     end
@@ -89,6 +92,9 @@ class CredenciamentoContaDigital
         )
 
         retorno = JSON.parse(response.body)
+        if(!retorno["status"]) 
+            retorno["status"] = 201;
+        end
         return retorno
 
     end

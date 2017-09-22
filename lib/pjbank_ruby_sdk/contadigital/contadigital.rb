@@ -28,10 +28,10 @@ class ContaDigitalController
             @credenciamentoController.adicionar dados, aut
         end
 
-        def cadastrar params
+        def webhook params
             dados = params[:dados]
             aut = params[:aut]
-            @credenciamentoController.cadastrar dados, aut
+            @credenciamentoController.webhook dados, aut
         end
 
         def convidar params

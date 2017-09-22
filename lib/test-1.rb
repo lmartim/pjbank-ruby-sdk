@@ -19,12 +19,13 @@ puts "Lendo:"
 teste = gets.chomp
 
 case teste
+    # OK    
     when '1'
         PJBank::ContaDigital.credenciamento(
             acao: "credenciamento", 
             dados: {
                 nome_empresa: "Exemplo Conta Digital",
-                cnpj: "42025140000164",
+                cnpj: "40426207000147",
                 cep: "13032525",
                 endereco: "Rua Joaquim Vilac",
                 numero: "509",
@@ -47,19 +48,20 @@ case teste
                 puts response["msg"]
             end
         }
+    # NOT OK
     when '2'
         PJBank::ContaDigital.credenciamento(
             acao: "inserir", 
             aut: {
-                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
-                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
+                credencial: '1c12c151b07a56dfefa477f52ba494bf54e1cdc2',
+                chave: '8573f0712694e804a33822b084baffa04c4c44b0'
             },
             dados: {
-                arquivo: 'http://thumbs3.ebaystatic.com/d/l225/m/mI0JQzAhpPGUAbB_iUmxfjA.jpg',
+                arquivo: '',
                 tipo: 'contratosocial'
             }
         ){|response|
-        puts response["status"]
+            puts response
             case response["status"]
             when 200, 201
                 puts response["msg"]
@@ -67,58 +69,58 @@ case teste
             else
                 puts response["msg"]
             end
-            puts response
         }
+    # OK
     when '3'
         PJBank::ContaDigital.credenciamento(
             acao: "adicionar",
             aut: {
-                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
-                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
+                credencial: '1c12c151b07a56dfefa477f52ba494bf54e1cdc2',
+                chave: '8573f0712694e804a33822b084baffa04c4c44b0'
             },
             dados: {
                 valor: "900.00",
             }
         ){|response|
-            puts response["status"]
             case response["status"]
-            when "200", 201
-                puts response["linkBoleto"]
+            when 200, 201
+                puts response
             else
                 puts response["msg"]
             end
-            puts response
         }
+    # OK
     when '4'
         PJBank::ContaDigital.credenciamento(
-            acao: "cadastrar", 
+            acao: "webhook", 
             aut: {
-                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
-                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
+                credencial: '1c12c151b07a56dfefa477f52ba494bf54e1cdc2',
+                chave: '8573f0712694e804a33822b084baffa04c4c44b0'
             },
             dados: {
                 webhook: 'http://example.com'
             }
         ){|response|
             case response["status"]
-            when "200", 201
-                puts response["linkBoleto"]
+            when 200, 201
+                puts response
             else
                 puts response["msg"]
             end
-            puts response
         }
+    # OK
     when '5'
         PJBank::ContaDigital.credenciamento(
             acao: "convidar",
             aut: {
-                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
-                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
+                credencial: '1c12c151b07a56dfefa477f52ba494bf54e1cdc2',
+                chave: '8573f0712694e804a33822b084baffa04c4c44b0'
             },
             dados: {
                 email: "api@pjbank.com.br",
             }
         ){|response|
+            puts response
             case response["status"]
             when 200, 201
                 puts response["msg"]
@@ -126,17 +128,19 @@ case teste
                 puts response["msg"]
             end
         }
+    
     when '6'
         PJBank::ContaDigital.credenciamento(
             acao: "remover",
             aut: {
-                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
-                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
+                credencial: '1c12c151b07a56dfefa477f52ba494bf54e1cdc2',
+                chave: '8573f0712694e804a33822b084baffa04c4c44b0'
             },
             dados: {
                 email: "api@pjbank.com.br",
             }
         ){|response|
+            puts response
             case response["status"]
             when 200, 201
                 puts response["msg"]
@@ -158,6 +162,7 @@ case teste
                 descricao_pagamento: "Pagamento de teste"
             }
         ){|response|
+            puts response
             case response["status"]
             when 200, 201
                 puts response["msg"]
