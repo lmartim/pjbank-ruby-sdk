@@ -1,5 +1,5 @@
 require_relative 'credenciamento/credenciamento'
-# require_relative 'consultas/consultas'
+require_relative 'consultas/consultas'
 # require_relative 'transacoes/transacoes'
 # require_relative 'subcontas/subcontas'
 # require_relative 'recebimentos/recebimentos'
@@ -44,6 +44,40 @@ class ContaDigitalController
             dados = params[:dados]
             aut = params[:aut]
             @credenciamentoController.remover dados, aut
+        end
+
+    end
+
+    class Consultas
+        def initialize
+            @consultasController = ConsultasContaDigital.new
+        end
+
+        def cadastro params
+            if !params[:dados]
+                dados = {com_saldo: "false"}
+            else
+                dados = params[:dados]
+            end
+            aut = params[:aut]
+            
+            @consultasController.cadastro dados, aut
+        end
+
+        def documentos params
+            aut = params[:aut]
+            @consultasController.documentos aut
+        end
+
+        def socio params
+            dados = params[:dados]
+            aut = params[:aut]
+            @consultasController.socio dados, aut
+        end
+
+        def administradores params
+            aut = params[:aut]
+            @consultasController.administradores aut
         end
 
     end

@@ -128,7 +128,7 @@ case teste
                 puts response["msg"]
             end
         }
-    
+    # OK
     when '6'
         PJBank::ContaDigital.credenciamento(
             acao: "remover",
@@ -148,18 +148,16 @@ case teste
                 puts response["msg"]
             end
         }
+    # NOT OK
     when '7'
-        PJBank::ContaDigital.credenciamento(
-            acao: :emitirToken,
+        PJBank::ContaDigital.consultas(
+            acao: "cadastro",
             aut: {
-                'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
-                'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f'
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
             },
             dados: {
-                token_cartao: "a8acb8de818d428844fee52a48ea3b075d8c9f0e",
-                valor: "10",
-                parcelas: "2",
-                descricao_pagamento: "Pagamento de teste"
+                com_saldo: true,
             }
         ){|response|
             puts response
@@ -170,25 +168,27 @@ case teste
                 puts response["msg"]
             end
         }
+    # OK
     when '8'
-        PJBank::ContaDigital.credenciamento(
-            acao: :emitirCartao,
+        PJBank::ContaDigital.consultas(
+            acao: "documentos",
             aut: {
-                'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
-                'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f'
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
+            }
+        ){|response|
+            puts response
+        }
+    # OK
+    when '9'
+        PJBank::ContaDigital.consultas(
+            acao: "socio",
+            aut: {
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
             },
             dados: {
-                numero_cartao: "4012001037141112",
-                nome_cartao: "Cliente Exemplo",
-                mes_vencimento: "05",
-                ano_vencimento: "2018",
-                cpf_cartao: "37843514171",
-                email_cartao: "api@pjbank.com.br",
-                celular_cartao: "1187906534",
-                codigo_cvv: "123",
-                valor: "10",
-                parcelas: "2",
-                descricao_pagamento: "Pagamento de teste"
+                email: "api@pjbank.com.br",
             }
         ){|response|
             case response["status"]
@@ -198,37 +198,22 @@ case teste
                 puts response["msg"]
             end
         }
-    when '9'
-        PJBank::ContaDigital.credenciamento(
-            acao: :cancelarTransacao,
-            aut: {
-                'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
-                'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f',
-                'tid_cartao': '2017000006910011775476'
-            }
-        ){|response|
-            case response["status"]
-            when 200, 201
-                puts response["msg"]
-            else
-                puts response["msg"]
-            end
-        }
+    # NOT OK
     when '10'
-        PJBank::Recebimento.extrato(
-            acao: :pagamentos,
+        PJBank::ContaDigital.consultas(
+            acao: "administradores",
             aut: {
-                'credencial_cartao': '1264e7bea04bb1c24b07ace759f64a1bd65c8560',
-                'chave_cartao': 'ef947cf5867488f744b82744dd3a8fc4852e529f',
+                credencial: 'eb2af021c5e2448c343965a7a80d7d090eb64164',
+                chave: 'a834d47e283dd12f50a1b3a771603ae9dfd5a32c'
             }
         ){|response|
-            case response["status"]
-            when 200, 201
-                puts response["msg"]
-            else
-                puts response["msg"]
-            end
             puts response
+            # case response["status"]
+            # when 200, 201
+            #     puts response["msg"]
+            # else
+            #     puts response["msg"]
+            # end
         }
     when '11'
         PJBank::Recebimento.extrato(
