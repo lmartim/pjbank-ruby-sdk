@@ -1,7 +1,7 @@
 require_relative 'credenciamento/credenciamento'
 require_relative 'consultas/consultas'
 # require_relative 'transacoes/transacoes'
-# require_relative 'subcontas/subcontas'
+require_relative 'subcontas/subcontas'
 # require_relative 'recebimentos/recebimentos'
 
 class ContaDigitalController
@@ -78,6 +78,37 @@ class ContaDigitalController
         def administradores params
             aut = params[:aut]
             @consultasController.administradores aut
+        end
+
+    end
+
+    class Subcontas
+        def initialize
+            @subcontasController = SubcontasContaDigital.new
+        end
+
+        def criar params
+            dados = params[:dados]
+            aut = params[:aut]
+            @subcontasController.criar dados, aut
+        end
+
+        def consultar params
+            dados = params[:dados]
+            aut = params[:aut]
+            @subcontasController.consultar dados, aut
+        end
+
+        def adicionar params
+            dados = params[:dados]
+            aut = params[:aut]
+            @subcontasController.adicionar dados, aut
+        end
+
+        def extrato params
+            dados = params[:dados]
+            aut = params[:aut]
+            @subcontasController.extrato dados, aut
         end
 
     end

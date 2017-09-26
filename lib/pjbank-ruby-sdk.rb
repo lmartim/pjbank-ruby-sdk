@@ -43,12 +43,12 @@ module PJBank
             yield APICall::api_call(controller, params)
         end
 
-        def subcontas(params)
+        def self.subcontas(params)
             controller = ContaDigitalController::Subcontas.new
             yield APICall::api_call(controller, params)
         end
 
-        def recebimentos(params)
+        def self.recebimentos(params)
             controller = ContaDigitalController::Recebimentos.new
             yield APICall::api_call(controller, params)
         end
